@@ -1012,4 +1012,3 @@ Avtotester.uz/
 
 ---
 
-*Hujjat yaratilgan sana: 2026-02-25 | Versiya: 1.0.0*
