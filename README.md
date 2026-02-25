@@ -55,6 +55,7 @@ Foydalanuvchilarga haydovchilik guvohnomasi imtihoniga samarali tayyorlanish imk
 ### 2.2 Biznes vazifalari
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 mindmap
   root((AvtoTester.uz))
     Ta'lim
@@ -83,6 +84,7 @@ mindmap
 ### 3.1 Rollar diagrammasi
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 graph TD
     A[Foydalanuvchilar] --> B[STUDENT]
     A --> C[ADMIN]
@@ -121,6 +123,7 @@ graph TD
 ### 4.1 Umumiy arxitektura diagrammasi
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 graph TB
     subgraph "Klient qatlami"
         FE["🌐 Frontend<br/>React + TypeScript + Vite<br/>avtotester.uz"]
@@ -154,6 +157,7 @@ graph TB
 ### 4.2 So'rov oqimi (Request Flow)
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 sequenceDiagram
     participant U as Foydalanuvchi
     participant F as Frontend
@@ -182,6 +186,7 @@ sequenceDiagram
 ### 5.1 ER Diagramma (Entity-Relationship)
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 erDiagram
     User ||--o{ Result : "yechadi"
     User ||--o| UserSession : "sessiya"
@@ -296,6 +301,7 @@ erDiagram
 ### 6.1 Test turlari va qoidalari
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 graph LR
     subgraph "Test Turlari"
         T1["📚 THEME<br/>Mavzu bo'yicha"]
@@ -323,6 +329,7 @@ graph LR
 ### 6.3 Use Case diagrammasi
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 graph TB
     subgraph "Talaba (STUDENT)"
         UC1["Tizimga kirish / Chiqish"]
@@ -423,6 +430,7 @@ graph TB
 ### 7.7 API so'rov oqimi
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 sequenceDiagram
     participant C as Client
     participant D as Decorator
@@ -456,6 +464,7 @@ sequenceDiagram
 ### 8.1 Login jarayoni algoritmi
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 flowchart TD
     A[Login so'rovi] --> B{Username va password<br/>to'g'rimi?}
     B -->|Yo'q| C[400: Invalid credentials]
@@ -481,6 +490,7 @@ flowchart TD
 ### 8.2 Token autentifikatsiyasi
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 flowchart LR
     A[So'rov] --> B{Authorization<br/>header bormi?}
     B -->|Yo'q| C[401: Missing header]
@@ -510,6 +520,7 @@ flowchart LR
 ### 9.1 Test boshlash algoritmi
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 flowchart TD
     A[Test boshlash so'rovi] --> B{Test turi?}
     
@@ -544,6 +555,7 @@ flowchart TD
 ### 9.2 Javob berish algoritmi
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 flowchart TD
     A["POST /solve_tests/{id}/answer/<br/>variant_id"] --> B{Test tugatilganmi?}
     B -->|Ha| C[400: Test allaqachon tugatilgan]
@@ -572,6 +584,7 @@ flowchart TD
 ### 9.3 Test yaratish algoritmi (Admin)
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 flowchart TD
     A[Admin: Test yaratish] --> B[Test ma'lumotlarini kiritish<br/>savol + rasm + bilet + mavzu]
     B --> C["Test saqlash<br/>active=False (default)"]
@@ -586,6 +599,7 @@ flowchart TD
 ### 9.4 Test holatlarining hayot sikli
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 stateDiagram-v2
     [*] --> Yaratilgan: Test yaratildi
     Yaratilgan --> VariantlarQoshilgan: Variantlar qo'shildi
@@ -629,6 +643,7 @@ FUNCTION calculate_exam_result(result):
 ### 10.1 Sahifalar xaritasi
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 graph TB
     subgraph "Public sahifalar"
         P1["/login — Kirish sahifasi"]
@@ -673,6 +688,7 @@ graph TB
 ### 10.3 Frontend arxitektura diagrammasi
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
 graph TB
     App["App.tsx<br/>BrowserRouter + Layout + AppRoutes"]
     
