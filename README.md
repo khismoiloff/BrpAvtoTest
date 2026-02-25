@@ -55,25 +55,25 @@ Foydalanuvchilarga haydovchilik guvohnomasi imtihoniga samarali tayyorlanish imk
 ### 2.2 Biznes vazifalari
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
+%%{init: {'theme': 'default'}}%%
 mindmap
   root((AvtoTester.uz))
-    Ta'lim
-      Mavzu bo'yicha o'rganish
-      Bilet bo'yicha mashq
+    Talim
+      Mavzu boyicha organish
+      Bilet boyicha mashq
       Tasodifiy testlar
     Imtihon
       Real sharoitni simulyatsiya
-      Vaqt cheklovi (20 daq)
-      3 xato = tugatish
-      O'tish bali 90%
+      Vaqt cheklovi 20 daq
+      3 xato tugatish
+      Otish bali 90 foiz
     Monitoring
       Shaxsiy statistika
       Natijalar tarixi
-      O'rtacha ball
+      Ortacha ball
     Boshqaruv
-      Foydalanuvchilar boshqaruvi
-      Test kontenti boshqaruvi
+      Foydalanuvchilar
+      Test kontenti
       Ruxsatlar tizimi
 ```
 
@@ -84,14 +84,14 @@ mindmap
 ### 3.1 Rollar diagrammasi
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
+%%{init: {'theme': 'default'}}%%
 graph TD
     A[Foydalanuvchilar] --> B[STUDENT]
     A --> C[ADMIN]
     
     B --> B1[Test yechish]
-    B --> B2[Statistika ko'rish]
-    B --> B3[Profilni tahrirlash]
+    B --> B2[Statistika korish]
+    B --> B3[Profil tahrirlash]
     B --> B4[Imtihon topshirish]
     
     C --> C1[Barcha STUDENT imkoniyatlari]
@@ -123,30 +123,30 @@ graph TD
 ### 4.1 Umumiy arxitektura diagrammasi
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
+%%{init: {'theme': 'default'}}%%
 graph TB
-    subgraph "Klient qatlami"
-        FE["🌐 Frontend<br/>React + TypeScript + Vite<br/>avtotester.uz"]
-        TG["🤖 Telegram Bot<br/>Aiogram 3.x<br/>@AvtoTesterUzBot"]
-        MA["📱 Telegram Mini App<br/>WebApp orqali<br/>Frontend'ga yo'naltiradi"]
+    subgraph Klient
+        FE[Frontend - React TS Vite]
+        TG[Telegram Bot - Aiogram]
+        MA[Telegram Mini App]
     end
 
-    subgraph "Server qatlami"
-        NG["⚙️ Nginx<br/>Reverse Proxy + Static Files"]
-        GU["🦄 Gunicorn<br/>WSGI Server"]
-        DJ["🐍 Django 5.2<br/>+ DRF 3.16<br/>api.avtotester.uz"]
+    subgraph Server
+        NG[Nginx - Reverse Proxy]
+        GU[Gunicorn - WSGI]
+        DJ[Django 5.2 + DRF 3.16]
     end
 
-    subgraph "Ma'lumotlar qatlami"
-        DB[("💾 SQLite<br/>db.sqlite3<br/>~60MB")]
-        FS["📁 Media Files<br/>images/<br/>730+ fayl"]
-        ST["📂 Static Files<br/>CSS, JS, Fonts"]
+    subgraph Malumotlar
+        DB[(SQLite - 60MB)]
+        FS[Media Files - 730 fayl]
+        ST[Static Files]
     end
 
-    FE -->|"REST API<br/>HTTPS"| NG
-    TG -->|"Mini App URL"| MA
-    MA -->|"WebApp"| FE
-    NG -->|"Proxy Pass<br/>:8000"| GU
+    FE -->|REST API HTTPS| NG
+    TG -->|Mini App URL| MA
+    MA -->|WebApp| FE
+    NG -->|Proxy :8000| GU
     GU --> DJ
     DJ --> DB
     DJ --> FS
@@ -157,22 +157,22 @@ graph TB
 ### 4.2 So'rov oqimi (Request Flow)
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
+%%{init: {'theme': 'default'}}%%
 sequenceDiagram
     participant U as Foydalanuvchi
     participant F as Frontend
     participant N as Nginx
     participant G as Gunicorn
-    participant D as Django/DRF
+    participant D as Django
     participant DB as SQLite
 
     U->>F: Sahifani ochish
-    F->>N: API so'rov (Authorization header)
+    F->>N: API sorov + Auth header
     N->>G: Proxy pass :8000
     G->>D: WSGI Request
-    D->>D: Decorator: token tekshirish
+    D->>D: Token tekshirish
     D->>DB: ORM Query
-    DB-->>D: Ma'lumot
+    DB-->>D: Malumot
     D-->>G: JSON Response
     G-->>N: HTTP Response
     N-->>F: JSON data
@@ -186,14 +186,14 @@ sequenceDiagram
 ### 5.1 ER Diagramma (Entity-Relationship)
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
+%%{init: {'theme': 'default'}}%%
 erDiagram
     User ||--o{ Result : "yechadi"
     User ||--o| UserSession : "sessiya"
     Theme ||--o{ Test : "mavzu"
     Ticket ||--o{ Test : "bilet"
     Test ||--o{ Variant : "variantlar"
-    Test ||--o| Variant : "to'g'ri javob"
+    Test ||--o| Variant : "togri javob"
     Result ||--o{ TestSheet : "test varaqlari"
     Test ||--o{ TestSheet : "test savoli"
     TestSheet }o--o| Variant : "tanlangan javob"
@@ -203,8 +203,8 @@ erDiagram
         string username UK
         string password
         string full_name
-        string role "ADMIN | STUDENT"
-        boolean ruxsat "Imtihon ruxsati"
+        string role
+        boolean ruxsat
         boolean is_staff
         boolean is_active
         datetime date_joined
@@ -223,19 +223,19 @@ erDiagram
     
     Test {
         int id PK
-        text value "Savol matni"
-        image image "Rasm (ixtiyoriy)"
-        boolean active "Faol holati"
-        int correct_answer FK "Variant ID"
-        int theme FK "Mavzu (ixtiyoriy)"
-        int ticket FK "Bilet (majburiy)"
+        text value
+        image image
+        boolean active
+        int correct_answer FK
+        int theme FK
+        int ticket FK
         datetime created_at
     }
     
     Variant {
         int id PK
-        text value "Javob matni"
-        int test FK "Test ID"
+        text value
+        int test FK
         datetime created_at
     }
     
@@ -243,10 +243,10 @@ erDiagram
         int id PK
         int user FK
         text description
-        int test_length "Savollar soni"
-        int true_answers "To'g'ri javoblar"
-        int incorrect_answers "Noto'g'ri javoblar"
-        string test_type "THEME|EXAM|TICKET|SETTEST"
+        int test_length
+        int true_answers
+        int incorrect_answers
+        string test_type
         boolean finished
         datetime start_time
         datetime end_time
@@ -256,16 +256,16 @@ erDiagram
         int id PK
         int result FK
         int test FK
-        json variant_orders "Aralashtirilgan tartib"
-        int current_answer FK "Tanlangan variant"
+        json variant_orders
+        int current_answer FK
         boolean selected
-        boolean successful "null|true|false"
+        boolean successful
         datetime created_at
     }
     
     UserSession {
         int id PK
-        int user FK "OneToOne"
+        int user FK
         uuid token UK
         string device_info
         ip ip_address
@@ -301,19 +301,12 @@ erDiagram
 ### 6.1 Test turlari va qoidalari
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
+%%{init: {'theme': 'default'}}%%
 graph LR
-    subgraph "Test Turlari"
-        T1["📚 THEME<br/>Mavzu bo'yicha"]
-        T2["🎫 TICKET<br/>Bilet bo'yicha"]
-        T3["📝 SETTEST<br/>Tasodifiy"]
-        T4["🎓 EXAM<br/>Imtihon"]
-    end
-
-    T1 --> R1["Barcha mavzudagi<br/>faol testlar"]
-    T2 --> R2["Barcha biletdagi<br/>faol testlar"]
-    T3 --> R3["N ta tasodifiy<br/>faol testlar"]
-    T4 --> R4["20 ta tasodifiy<br/>+ vaqt cheklovi<br/>+ 3 xato limiti"]
+    T1[THEME - Mavzu boyicha] --> R1[Barcha mavzudagi faol testlar]
+    T2[TICKET - Bilet boyicha] --> R2[Barcha biletdagi faol testlar]
+    T3[SETTEST - Tasodifiy] --> R3[N ta tasodifiy faol testlar]
+    T4[EXAM - Imtihon] --> R4[20 ta tasodifiy + vaqt + 3 xato limiti]
 ```
 
 ### 6.2 Imtihon qoidalari
@@ -328,38 +321,38 @@ graph LR
 
 ### 6.3 Use Case diagrammasi
 
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
-graph TB
-    subgraph "Talaba (STUDENT)"
-        UC1["Tizimga kirish / Chiqish"]
-        UC2["Profilni ko'rish / Tahrirlash"]
-        UC3["Mavzular ro'yxatini ko'rish"]
-        UC4["Biletlar ro'yxatini ko'rish"]
-        UC5["Mavzu bo'yicha test boshlash"]
-        UC6["Bilet bo'yicha test boshlash"]
-        UC7["SetTest boshlash"]
-        UC8["Imtihon topshirish"]
-        UC9["Testga javob berish"]
-        UC10["Testni tugatish"]
-        UC11["Natijalar tarixini ko'rish"]
-        UC12["Statistikani ko'rish"]
-    end
+**Talaba (STUDENT) imkoniyatlari:**
 
-    subgraph "Admin (ADMIN)"
-        UC20["Foydalanuvchilarni boshqarish (CRUD)"]
-        UC21["Mavzularni boshqarish (CRUD)"]
-        UC22["Biletlarni boshqarish (CRUD)"]
-        UC23["Testlarni boshqarish (CRUD + rasm)"]
-        UC24["Variantlarni boshqarish (CRUD)"]
-        UC25["To'g'ri javobni belgilash"]
-        UC26["Umumiy statistikani ko'rish"]
-        UC27["Foydalanuvchi statistikasini ko'rish"]
-        UC28["Foydalanuvchi natijalarini tozalash"]
-        UC29["Imtihon ruxsatini berish / olish"]
-        UC30["Bog'lanish ma'lumotlarini tahrirlash"]
-    end
-```
+| # | Use Case |
+|---|----------|
+| 1 | Tizimga kirish / Chiqish |
+| 2 | Profilni ko'rish / Tahrirlash |
+| 3 | Mavzular ro'yxatini ko'rish |
+| 4 | Biletlar ro'yxatini ko'rish |
+| 5 | Mavzu bo'yicha test boshlash |
+| 6 | Bilet bo'yicha test boshlash |
+| 7 | SetTest boshlash |
+| 8 | Imtihon topshirish |
+| 9 | Testga javob berish |
+| 10 | Testni tugatish |
+| 11 | Natijalar tarixini ko'rish |
+| 12 | Statistikani ko'rish |
+
+**Admin (ADMIN) qo'shimcha imkoniyatlari:**
+
+| # | Use Case |
+|---|----------|
+| 1 | Foydalanuvchilarni boshqarish (CRUD) |
+| 2 | Mavzularni boshqarish (CRUD) |
+| 3 | Biletlarni boshqarish (CRUD) |
+| 4 | Testlarni boshqarish (CRUD + rasm) |
+| 5 | Variantlarni boshqarish (CRUD) |
+| 6 | To'g'ri javobni belgilash |
+| 7 | Umumiy statistikani ko'rish |
+| 8 | Foydalanuvchi statistikasini ko'rish |
+| 9 | Foydalanuvchi natijalarini tozalash |
+| 10 | Imtihon ruxsatini berish / olish |
+| 11 | Bog'lanish ma'lumotlarini tahrirlash |
 
 ---
 
@@ -412,13 +405,13 @@ graph TB
 | `GET/POST` | `/api/admin/ticket/` | Biletlar CRUD |
 | `GET/PUT/DELETE` | `/api/admin/ticket/{id}/` | Bilet operatsiyalari |
 | `GET/POST` | `/api/admin/test/` | Testlar CRUD |
-| `GET/PUT/DELETE/PATCH` | `/api/admin/test/{id}/` | Test operatsiyalari (PATCH = rasm yuklash) |
+| `GET/PUT/DELETE/PATCH` | `/api/admin/test/{id}/` | Test operatsiyalari (PATCH = rasm) |
 | `GET/POST` | `/api/admin/test/{test_id}/variant/` | Variantlar CRUD |
 | `GET/PUT/DELETE` | `/api/admin/test/variant/{id}/` | Variant operatsiyalari |
 | `POST` | `/api/admin/test/variant/{id}/true/` | To'g'ri javob belgilash |
 | `GET` | `/api/admin/statistics/` | Admin statistika |
-| `GET` | `/api/admin/all_users_stats/` | Barcha foydalanuvchilar statistikasi |
-| `GET` | `/api/admin/user_statistics/{user_id}/` | Bitta foydalanuvchi statistikasi |
+| `GET` | `/api/admin/all_users_stats/` | Barcha foydalanuvchilar stats |
+| `GET` | `/api/admin/user_statistics/{user_id}/` | Foydalanuvchi statistikasi |
 
 ### 7.6 Public API
 
@@ -430,7 +423,7 @@ graph TB
 ### 7.7 API so'rov oqimi
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
+%%{init: {'theme': 'default'}}%%
 sequenceDiagram
     participant C as Client
     participant D as Decorator
@@ -438,20 +431,20 @@ sequenceDiagram
     participant S as Serializer
     participant DB as Database
 
-    C->>D: Request + Authorization Header
+    C->>D: Request + Auth Header
     D->>D: Token tekshirish
     alt Token yaroqsiz
         D-->>C: 401 Unauthorized
     end
-    D->>V: request.user = authenticated_user
+    D->>V: request.user = user
     alt Admin endpoint
-        D->>D: Role tekshirish (ADMIN/is_staff)
+        D->>D: Role tekshirish
         alt Admin emas
             D-->>C: 403 Forbidden
         end
     end
-    V->>S: Ma'lumotni serializatsiya
-    S->>DB: ORM orqali saqlash/o'qish
+    V->>S: Serializatsiya
+    S->>DB: ORM Query
     DB-->>S: Natija
     S-->>V: Validated data
     V-->>C: JSON Response
@@ -464,39 +457,39 @@ sequenceDiagram
 ### 8.1 Login jarayoni algoritmi
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
+%%{init: {'theme': 'default'}}%%
 flowchart TD
-    A[Login so'rovi] --> B{Username va password<br/>to'g'rimi?}
-    B -->|Yo'q| C[400: Invalid credentials]
-    B -->|Ha| D{Mavjud sessiya<br/>bormi?}
+    A[Login sorovi] --> B{Username va password togri?}
+    B -->|Yoq| C[400: Invalid credentials]
+    B -->|Ha| D{Mavjud sessiya bor?}
     
-    D -->|Yo'q| E[Yangi sessiya yaratish<br/>Token generatsiya]
+    D -->|Yoq| E[Yangi sessiya yaratish]
     E --> F[200: Token qaytarish]
     
-    D -->|Ha| G{device_info<br/>null mi?}
-    G -->|Ha| H[device_info ni yangilash]
+    D -->|Ha| G{device_info null?}
+    G -->|Ha| H[device_info yangilash]
     H --> F
     
-    G -->|Yo'q| I{Xuddi shu<br/>qurilmami?}
+    G -->|Yoq| I{Xuddi shu qurilma?}
     I -->|Ha| J[IP yangilash]
     J --> F
     
-    I -->|Yo'q| K{force_login<br/>= true?}
-    K -->|Ha| L[Eski sessiya o'chirish<br/>Yangi sessiya yaratish]
+    I -->|Yoq| K{force_login = true?}
+    K -->|Ha| L[Eski sessiya ochirish va yangi yaratish]
     L --> F
-    K -->|Yo'q| M[403: DEVICE_CONFLICT<br/>Boshqa qurilmada faol]
+    K -->|Yoq| M[403: DEVICE_CONFLICT]
 ```
 
 ### 8.2 Token autentifikatsiyasi
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
+%%{init: {'theme': 'default'}}%%
 flowchart LR
-    A[So'rov] --> B{Authorization<br/>header bormi?}
-    B -->|Yo'q| C[401: Missing header]
-    B -->|Ha| D[Token ajratish<br/>Token/Bearer prefix]
-    D --> E{UserSession<br/>da topildimi?}
-    E -->|Yo'q| F[401: Invalid token]
+    A[Sorov] --> B{Auth header bor?}
+    B -->|Yoq| C[401: Missing header]
+    B -->|Ha| D[Token ajratish]
+    D --> E{UserSession da topildi?}
+    E -->|Yoq| F[401: Invalid token]
     E -->|Ha| G[request.user = session.user]
     G --> H[View funksiyasi]
 ```
@@ -520,100 +513,95 @@ flowchart LR
 ### 9.1 Test boshlash algoritmi
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
+%%{init: {'theme': 'default'}}%%
 flowchart TD
-    A[Test boshlash so'rovi] --> B{Test turi?}
+    A[Test boshlash sorovi] --> B{Test turi?}
     
-    B -->|THEME| C[theme_id olish]
-    C --> D[Theme topish]
-    D --> E["Faol testlar: Test.filter(theme=theme, active=True)"]
+    B -->|THEME| C[theme_id olish va Theme topish]
+    C --> E[Faol testlarni olish]
     
-    B -->|TICKET| F[ticket_id olish]
-    F --> G[Ticket topish]
-    G --> H["Faol testlar: Test.filter(ticket=ticket, active=True)"]
+    B -->|TICKET| F[ticket_id olish va Ticket topish]
+    F --> E
     
     B -->|SETTEST| I[count olish]
-    I --> J["Barcha faol testlar: Test.filter(active=True)"]
-    J --> K["Tasodifiy tanlash: sample(tests, count)"]
+    I --> J[Barcha faol testlardan tasodifiy tanlash]
+    J --> O
     
-    B -->|EXAM| L[count=20]
-    L --> M["Barcha faol testlar: Test.filter(active=True)"]
-    M --> N["Tasodifiy tanlash: sample(tests, 20)"]
-    
-    E --> O{Testlar<br/>mavjudmi?}
-    H --> O
-    K --> O
+    B -->|EXAM| L[count = 20]
+    L --> N[Barcha faol testlardan 20 ta tanlash]
     N --> O
     
-    O -->|Yo'q| P[400: Testlar mavjud emas]
-    O -->|Ha| Q["Tugatilmagan natijalarni o'chirish:<br/>Result.filter(user, finished=False).delete()"]
+    E --> O{Testlar mavjud?}
+    
+    O -->|Yoq| P[400: Testlar mavjud emas]
+    O -->|Ha| Q[Tugatilmagan natijalarni ochirish]
     Q --> R[Result yaratish]
-    R --> S["Har bir test uchun<br/>TestSheet yaratish"]
+    R --> S[Har bir test uchun TestSheet yaratish]
     S --> T[201: Result qaytarish]
 ```
 
 ### 9.2 Javob berish algoritmi
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
+%%{init: {'theme': 'default'}}%%
 flowchart TD
-    A["POST /solve_tests/{id}/answer/<br/>variant_id"] --> B{Test tugatilganmi?}
+    A[POST answer - variant_id] --> B{Test tugatilgan?}
     B -->|Ha| C[400: Test allaqachon tugatilgan]
     
-    B -->|Yo'q| D{EXAM turidami<br/>va vaqt tugaganmi?}
-    D -->|Ha| E[Natijani tugatish<br/>finished=True]
+    B -->|Yoq| D{EXAM va vaqt tugagan?}
+    D -->|Ha| E[Natijani tugatish]
     E --> F[Natija qaytarish]
     
-    D -->|Yo'q| G{Allaqachon<br/>javob berilganmi?}
+    D -->|Yoq| G{Javob berilgan?}
     G -->|Ha| H[400: Javob belgilangan]
     
-    G -->|Yo'q| I[Javobni saqlash]
-    I --> J{Javob to'g'rimi?<br/>variant_id == correct_answer_id}
+    G -->|Yoq| I[Javobni saqlash]
+    I --> J{Javob togri?}
     
     J -->|Ha| K[true_answers += 1]
-    J -->|Yo'q| L[incorrect_answers += 1]
+    J -->|Yoq| L[incorrect_answers += 1]
     
     K --> M[TestSheet saqlash]
     L --> M
     
-    M --> N{EXAM turi va<br/>incorrect >= 3?}
-    N -->|Ha| O["Imtihon tugatish<br/>finished=True<br/>'3 ta xato javob berildi'"]
-    N -->|Yo'q| P[Javob natijasini qaytarish<br/>+ to'g'ri javob]
+    M --> N{EXAM va incorrect >= 3?}
+    N -->|Ha| O[Imtihon tugatish - 3 ta xato]
+    N -->|Yoq| P[Javob natijasini qaytarish]
 ```
 
 ### 9.3 Test yaratish algoritmi (Admin)
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
+%%{init: {'theme': 'default'}}%%
 flowchart TD
-    A[Admin: Test yaratish] --> B[Test ma'lumotlarini kiritish<br/>savol + rasm + bilet + mavzu]
-    B --> C["Test saqlash<br/>active=False (default)"]
-    C --> D[Variantlar qo'shish<br/>2-4 ta variant]
-    D --> E["To'g'ri javob belgilash<br/>variant/{id}/true/"]
-    E --> F["correct_answer = Variant"]
-    F --> G{correct_answer<br/>mavjudmi?}
-    G -->|Ha| H[active = True qilish mumkin]
-    G -->|Yo'q| I["active = False<br/>(avtomatik)"]
+    A[Admin: Test yaratish] --> B[Savol + rasm + bilet + mavzu kiritish]
+    B --> C[Test saqlash - active=False]
+    C --> D[2-4 ta variant qoshish]
+    D --> E[Togri javob belgilash]
+    E --> F[correct_answer = Variant]
+    F --> G{correct_answer mavjud?}
+    G -->|Ha| H[active = True mumkin]
+    G -->|Yoq| I[active = False avtomatik]
 ```
 
 ### 9.4 Test holatlarining hayot sikli
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
+%%{init: {'theme': 'default'}}%%
 stateDiagram-v2
     [*] --> Yaratilgan: Test yaratildi
-    Yaratilgan --> VariantlarQoshilgan: Variantlar qo'shildi
-    VariantlarQoshilgan --> JavobBelgilangan: To'g'ri javob belgilandi
+    Yaratilgan --> VariantlarQoshilgan: Variantlar qoshildi
+    VariantlarQoshilgan --> JavobBelgilangan: Togri javob belgilandi
     JavobBelgilangan --> Faol: Admin faollashtirdi
     Faol --> Nofaol: Admin nofaol qildi
     Nofaol --> Faol: Qayta faollashtirish
     
     Yaratilgan --> Muammoli: correct_answer = NULL
     VariantlarQoshilgan --> Muammoli: correct_answer = NULL
-    Muammoli --> JavobBelgilangan: To'g'ri javob belgilandi
+    Muammoli --> JavobBelgilangan: Togri javob belgilandi
     
-    Faol --> [*]: Test o'chirildi
-    Nofaol --> [*]: Test o'chirildi
+    Faol --> [*]: Test ochirildi
+    Nofaol --> [*]: Test ochirildi
 ```
 
 ### 9.5 Imtihon natijasi hisoblash
@@ -642,38 +630,40 @@ FUNCTION calculate_exam_result(result):
 
 ### 10.1 Sahifalar xaritasi
 
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
-graph TB
-    subgraph "Public sahifalar"
-        P1["/login — Kirish sahifasi"]
-        P2["/about — Haqida"]
-        P3["/connections — Bog'lanish"]
-    end
+**Public sahifalar:**
 
-    subgraph "User sahifalar (auth kerak)"
-        U1["/ — Dashboard (Bosh sahifa)"]
-        U2["/themes — Mavzular"]
-        U3["/tickets — Biletlar"]
-        U4["/settests — SetTestlar"]
-        U5["/exam — Imtihon"]
-        U6["/testresult/:id — Test yechish"]
-        U7["/test_result/:id — Natija"]
-        U8["/statistics — Statistika"]
-        U9["/profile — Profil"]
-    end
+| Sahifa | Yo'l | Tavsif |
+|--------|------|--------|
+| Login | `/login` | Kirish sahifasi |
+| About | `/about` | Haqida |
+| Connections | `/connections` | Bog'lanish |
 
-    subgraph "Admin sahifalar"
-        A1["/admin/dashboard — Admin Dashboard"]
-        A2["/admin/users — Foydalanuvchilar"]
-        A3["/admin/themes — Mavzular boshqaruvi"]
-        A4["/admin/tickets — Biletlar boshqaruvi"]
-        A5["/admin/tests — Testlar boshqaruvi"]
-        A6["/admin/statistics — Admin statistika"]
-        A7["/admin/results — Natijalar"]
-        A8["/admin/connections — Bog'lanish sozlamalari"]
-    end
-```
+**User sahifalar (auth kerak):**
+
+| Sahifa | Yo'l | Tavsif |
+|--------|------|--------|
+| Dashboard | `/` | Bosh sahifa |
+| Themes | `/themes` | Mavzular |
+| Tickets | `/tickets` | Biletlar |
+| SetTests | `/settests` | SetTestlar |
+| Exam | `/exam` | Imtihon |
+| Solve | `/testresult/:id` | Test yechish |
+| TestResult | `/test_result/:id` | Natija |
+| Statistics | `/statistics` | Statistika |
+| Profile | `/profile` | Profil |
+
+**Admin sahifalar:**
+
+| Sahifa | Yo'l | Tavsif |
+|--------|------|--------|
+| Dashboard | `/admin/dashboard` | Admin Dashboard |
+| Users | `/admin/users` | Foydalanuvchilar |
+| Themes | `/admin/themes` | Mavzular boshqaruvi |
+| Tickets | `/admin/tickets` | Biletlar boshqaruvi |
+| Tests | `/admin/tests` | Testlar boshqaruvi |
+| Statistics | `/admin/statistics` | Admin statistika |
+| Results | `/admin/results` | Natijalar |
+| Connections | `/admin/connections` | Bog'lanish sozlamalari |
 
 ### 10.2 Frontend komponentlari
 
@@ -688,23 +678,21 @@ graph TB
 ### 10.3 Frontend arxitektura diagrammasi
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'primaryColor': '#dbeafe', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#93c5fd', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#ede9fe', 'fontFamily': 'sans-serif'}}}%%
+%%{init: {'theme': 'default'}}%%
 graph TB
-    App["App.tsx<br/>BrowserRouter + Layout + AppRoutes"]
+    App[App.tsx] --> Routes[AppRoutes.tsx]
     
-    App --> Routes["AppRoutes.tsx<br/>Route himoyasi (auth check)"]
+    Routes --> Public[Public Routes]
+    Routes --> Protected[Protected Routes]
+    Routes --> Admin[Admin Routes]
     
-    Routes --> Public["Public Routes<br/>/login, /about, /connections"]
-    Routes --> Protected["Protected Routes<br/>auth ? Component : Login"]
-    Routes --> Admin["Admin Routes<br/>AdminRoute wrapper"]
+    Protected --> Pages[Dashboard sahifalar]
+    Admin --> AdminPages[Admin sahifalar - 7 komponent]
     
-    Protected --> Pages["Dashboard sahifalar<br/>Dashboard, Themes, Tickets,<br/>SetTests, Exam, Solve, Statistics"]
-    Admin --> AdminPages["Admin sahifalar<br/>AdminDashboard (1500+ qator)<br/>7 ta sub-komponent"]
-    
-    Pages --> ServerConn["ServerConnection<br/>(utils/Backend.tsx)<br/>5 ta HTTP method"]
+    Pages --> ServerConn[ServerConnection - 5 HTTP method]
     AdminPages --> ServerConn
     
-    ServerConn --> API["REST API<br/>api.avtotester.uz"]
+    ServerConn --> API[REST API - api.avtotester.uz]
 ```
 
 ---
@@ -714,26 +702,27 @@ graph TB
 ### 11.1 Admin panel tuzilishi
 
 ```mermaid
+%%{init: {'theme': 'default'}}%%
 graph LR
-    AD["Admin Dashboard"] --> S["Sidebar Menu"]
-    AD --> C["Content Area"]
+    AD[Admin Dashboard] --> S[Sidebar Menu]
+    AD --> C[Content Area]
     
-    S --> S1["📊 Dashboard"]
-    S --> S2["👥 Foydalanuvchilar"]
-    S --> S3["📚 Mavzular"]
-    S --> S4["🎫 Biletlar"]
-    S --> S5["📝 Testlar"]
-    S --> S6["📈 Statistika"]
-    S --> S7["📋 Natijalar"]
-    S --> S8["📞 Bog'lanish"]
+    S --> S1[Dashboard]
+    S --> S2[Foydalanuvchilar]
+    S --> S3[Mavzular]
+    S --> S4[Biletlar]
+    S --> S5[Testlar]
+    S --> S6[Statistika]
+    S --> S7[Natijalar]
+    S --> S8[Boglanish]
     
-    C --> C1["UserManagement.tsx (26KB)"]
-    C --> C2["ThemeManagement.tsx (10KB)"]
-    C --> C3["TicketManagement.tsx (10KB)"]
-    C --> C4["TestsManagement.tsx (61KB)"]
-    C --> C5["UsersStatisticsManagement.tsx (15KB)"]
-    C --> C6["EndResults.tsx (43KB)"]
-    C --> C7["ConnectionsManagement.tsx (15KB)"]
+    C --> C1[UserManagement - 26KB]
+    C --> C2[ThemeManagement - 10KB]
+    C --> C3[TicketManagement - 10KB]
+    C --> C4[TestsManagement - 61KB]
+    C --> C5[UsersStatistics - 15KB]
+    C --> C6[EndResults - 43KB]
+    C --> C7[ConnectionsMgmt - 15KB]
 ```
 
 ### 11.2 Admin CRUD operatsiyalari
@@ -754,13 +743,14 @@ graph LR
 ### 12.1 Bot arxitekturasi
 
 ```mermaid
+%%{init: {'theme': 'default'}}%%
 graph TB
-    subgraph "Telegram Bot (Aiogram 3.x)"
-        M["main.py<br/>Bot va Dispatcher"]
-        H["handlers.py<br/>Router + Handlerlar"]
-        K["keyboards.py<br/>InlineKeyboard + WebApp"]
-        MSG["messages.py<br/>Xabar shablonlari"]
-        CFG["config.py<br/>Sozlamalar"]
+    subgraph Bot
+        M[main.py - Bot va Dispatcher]
+        H[handlers.py - Router]
+        K[keyboards.py - InlineKeyboard]
+        MSG[messages.py - Shablonlar]
+        CFG[config.py - Sozlamalar]
     end
     
     M --> H
@@ -768,17 +758,17 @@ graph TB
     H --> MSG
     H --> CFG
     
-    subgraph "Komandalar"
-        C1["/start — Boshlash"]
-        C2["/help — Yordam"]
-        C3["/info — Ma'lumot"]
+    subgraph Komandalar
+        C1[/start - Boshlash]
+        C2[/help - Yordam]
+        C3[/info - Malumot]
     end
     
-    subgraph "Callback'lar"
-        CB1["help — Yordam ko'rsatish"]
-        CB2["info — Ma'lumot"]
-        CB3["error_report — Xato xabar"]
-        CB4["back_to_start — Orqaga"]
+    subgraph Callbacklar
+        CB1[help]
+        CB2[info]
+        CB3[error_report]
+        CB4[back_to_start]
     end
     
     H --> C1
@@ -793,18 +783,19 @@ graph TB
 ### 12.2 Bot xabar boshqaruvi
 
 ```mermaid
+%%{init: {'theme': 'default'}}%%
 flowchart TD
     A[Foydalanuvchi xabar yuboradi] --> B{Komanda?}
     
     B -->|/start| C{Admin ID?}
-    C -->|Ha| D[ADMIN_START_MESSAGE<br/>+ Admin keyboard<br/>8 ta WebApp tugma]
-    C -->|Yo'q| E[START_MESSAGE<br/>+ Start keyboard<br/>Test boshlash WebApp]
+    C -->|Ha| D[ADMIN_START_MESSAGE + Admin keyboard]
+    C -->|Yoq| E[START_MESSAGE + Start keyboard]
     
-    B -->|/help| F[HELP_MESSAGE<br/>+ Back keyboard]
-    B -->|/info| G[INFO_MESSAGE<br/>+ Back keyboard]
-    B -->|Boshqa xabar| H[Xabarni o'chirish<br/>+ Start menu ko'rsatish]
+    B -->|/help| F[HELP_MESSAGE + Back keyboard]
+    B -->|/info| G[INFO_MESSAGE + Back keyboard]
+    B -->|Boshqa| H[Xabarni ochirish + Start menu]
     
-    D --> I[Eski bot xabarini o'chirish<br/>+ Yangi xabar yuborish]
+    D --> I[Eski bot xabarini ochirish + Yangi yuborish]
     E --> I
     F --> I
     G --> I
@@ -828,41 +819,39 @@ flowchart TD
 ### 13.1 Server konfiguratsiyasi
 
 ```mermaid
+%%{init: {'theme': 'default'}}%%
 graph TB
-    subgraph "Internet"
-        CL["👤 Foydalanuvchi brauzeri"]
-        TG["🤖 Telegram API"]
+    subgraph Internet
+        CL[Foydalanuvchi brauzeri]
+        TGA[Telegram API]
     end
 
-    subgraph "VPS Server"
-        subgraph "Nginx"
-            N1["avtotester.uz → /var/www/dist/"]
-            N2["api.avtotester.uz → :8000 proxy"]
+    subgraph VPS
+        subgraph Nginx
+            N1[avtotester.uz - static files]
+            N2[api.avtotester.uz - proxy :8000]
         end
         
-        subgraph "Backend xizmatlari"
-            GU["Gunicorn<br/>config.wsgi:application<br/>:8000"]
-            BOT["Aiogram Bot<br/>polling rejimi"]
+        subgraph Xizmatlar
+            GU[Gunicorn - WSGI :8000]
+            BOT[Aiogram Bot - polling]
         end
         
-        subgraph "Fayllar"
-            DIST["dist/<br/>Frontend build"]
-            MEDIA["media/<br/>Test rasmlari"]
-            DB[("SQLite<br/>db.sqlite3")]
-            STATIC["static/<br/>Admin CSS/JS"]
+        subgraph Fayllar
+            DIST[dist/ - Frontend build]
+            MEDIA[media/ - Test rasmlari]
+            DB[(SQLite - db.sqlite3)]
         end
     end
 
     CL -->|HTTPS| N1
     CL -->|HTTPS| N2
-    TG -->|Webhook/Polling| BOT
+    TGA -->|Polling| BOT
     
     N1 --> DIST
     N2 --> GU
     GU --> DB
     GU --> MEDIA
-    N1 --> STATIC
-    N2 --> MEDIA
 ```
 
 ### 13.2 Nginx konfiguratsiyasi
@@ -973,7 +962,7 @@ Avtotester.uz/
 │   │   ├── admin.py               # Django admin konfiguratsiyasi
 │   │   └── views/
 │   │       ├── user_apis.py       # Foydalanuvchi API'lari
-│   │       ├── admin_apis.py      # Admin API'lari
+│   │       ├── admin_apis.py      # Admin API'lari (617 qator)
 │   │       ├── auth_apis.py       # Login/Logout
 │   │       └── public_apis.py     # Ochiq API'lar
 │   ├── Bot/                       # Telegram Bot
@@ -1000,8 +989,8 @@ Avtotester.uz/
     │   ├── components/
     │   │   └── Layout/             # Header, Footer
     │   ├── pages/
-    │   │   ├── Dashboard/          # Asosiy sahifalar
-    │   │   ├── Admin/              # Admin panel (80KB+ AdminDashboard)
+    │   │   ├── Dashboard/          # Asosiy sahifalar (8 fayl)
+    │   │   ├── Admin/              # Admin panel (80KB+)
     │   │   ├── Auth/               # Login sahifasi
     │   │   ├── Home/               # Bosh sahifa
     │   │   ├── profile/            # Profil sahifasi
